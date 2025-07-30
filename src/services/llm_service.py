@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
-from typing import List
+from typing import List, Dict, Any
 from ..models.exercise import Exercise
+from ..models.grading_result import GradingResult
 from ..learning_point import LearningPoint
 
 class LLMService(ABC):
@@ -23,5 +24,30 @@ class LLMService(ABC):
             
         Returns:
             List of Exercise objects
+        """
+        pass
+
+    @abstractmethod
+    async def grade_answer(self,
+                          problem: str,
+                          student_answer: str,
+                          expected_answer: str = None,
+                          metadata: Dict[str, Any] = None) -> GradingResult:
+        """
+        Grade a student's answer using the LLM.
+        
+        Args:
+            problem: The question or problem statement
+            student_answer: The student's answer to grade
+            expected_answer: The expected or model answer (optional)
+            metadata: Additional context for grading, such as:
+                     - topic: The topic being tested
+                     - difficulty: The difficulty level
+                     - student_level: The student's current level
+                     - previous_attempts: Number of previous attempts
+                     - time_spent: Time spent on the answer
+                     
+        Returns:
+            GradingResult containing score, feedback, and metadata
         """
         pass
